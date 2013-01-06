@@ -10,3 +10,5 @@ gem 'scissors', :path => './ruby'
 gem 'sinatra'
 gem 'haml'
 gem 'thin'
+
+gem 'debugger'
