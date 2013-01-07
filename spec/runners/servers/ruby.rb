@@ -53,6 +53,4 @@ server_with_cookies = Rack::Session::Cookie.new(server,
   :secret => COOKIE_SECRET
 )
 
-
-
 Rack::Handler::Thin.run server_with_cookies, :Port => ENV["PORT"]
