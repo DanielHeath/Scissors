@@ -1,31 +1,47 @@
+
+
 Scenario: User logging in to view a protected resource.
 
-| Downstream site (eg secret.com)                        | Authentication Server (eg authenticator.net)           |
-| User requests authenticated resource.                  |                                                        |
-| Site issues redirect to authentication server.         |                                                        |
-|                                                        | Authentication server displays login form              |
-|                                                        | User submits name/password                             |
-|                                                        | Redirects back to downstream site with URL parameters  |
-|                                                        | containing user data (identity, email - anything at    |
-|                                                        | all, really). The URL parameters also contain the      |
-|                                                        | HMAC-SHA1 signature of the provided data + a pre       |
-|                                                        | shared key + the current time (rounded to 5 minutes)   |
-| Verifies that signature matches user details/key.      |                                                        |
-| Sets cookie, stores user details.                      |                                                        |
-| User is now logged in.                                 |                                                        |
+|   Downstream site (eg secret.com)                          |   Authentication Server (eg authenticator.net)             |
+|   ------------------------------------------------------   |   ------------------------------------------------------   |
+|   User requests authenticated resource.                    |                                                            |
+|   Site issues redirect to authentication server.           |                                                            |
+|                                                            |   Authentication server displays login form                |
+|                                                            |   User submits name/password                               |
+|                                                            |   Redirects back to downstream site with URL parameters    |
+|                                                            |   containing user data (identity, email - anything at      |
+|                                                            |   all, really). The URL parameters also contain the        |
+|                                                            |   HMAC-SHA1 signature of the provided data + a pre         |
+|                                                            |   shared key + the current time (rounded to 5 minutes)     |
+|   Verifies that signature matches user details/key.        |                                                            |
+|   Sets cookie, stores user details.                        |                                                            |
+|   User is now logged in.                                   |                                                            |
 
 
 Scenario: User already logged in on authentication service, using a second service
 
-| Second Downstream site (eg profile.me)                 | Authentication Server (eg authenticator.net)           |
-| User requests authenticated resource.                  |                                                        |
-| Site issues redirect to authentication server.         |                                                        |
-|                                                        | Authentication server loads user details from session  |
-|                                                        | Redirects back to downstream site with URL parameters  |
-|                                                        | containing user data (identity, email - anything at    |
-|                                                        | all, really). The URL parameters also contain the      |
-|                                                        | HMAC-SHA1 signature of the provided data + a pre       |
-|                                                        | shared key + the current time (rounded to 5 minutes)   |
-| Verifies that signature matches user details/key.      |                                                        |
-| Sets cookie, stores user details.                      |                                                        |
-| User is now logged in.                                 |                                                        |
+|   Second Downstream site (eg profile.me)                   |   Authentication Server (eg authenticator.net)             |
+|   ------------------------------------------------------   |   ------------------------------------------------------   |
+|   User requests authenticated resource.                    |                                                            |
+|   Site issues redirect to authentication server.           |                                                            |
+|                                                            |   Authentication server loads user details from session    |
+|                                                            |   Redirects back to downstream site with URL parameters    |
+|                                                            |   containing user data (identity, email - anything at      |
+|                                                            |   all, really). The URL parameters also contain the        |
+|                                                            |   HMAC-SHA1 signature of the provided data + a pre         |
+|                                                            |   shared key + the current time (rounded to 5 minutes)     |
+|   Verifies that signature matches user details/key.        |                                                            |
+|   Sets cookie, stores user details.                        |                                                            |
+|   User is now logged in.                                   |                                                            |
+
+
+Scenario: Admin bans a user
+
+|   Downstream site (eg secret.com)                          |   Authentication Server (eg authenticator.net)             |
+|   ------------------------------------------------------   |   ------------------------------------------------------   |
+|                                                            |   Logged in admin POST's to the 'ban user 13231' url       |
+|                                                            |   Iterates through the list of downstream sites            |
+|                                                            |   POST's 'ban user 13231' to each site (retrying once      |
+|                                                            |   for 5xx responses)                                       |
+|   Receives POST from upstream site, verifies signature     |                                                            |
+|   Marks user as banned.                                    |                                                            |
