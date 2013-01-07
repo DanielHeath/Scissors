@@ -46,3 +46,30 @@ Scenario: Admin bans a user
 |                                                            |   'ban user 13231' to each site (retrying once for 5xx)    |
 |   Receives POST from upstream site, verifies signature     |                                                            |
 |   Marks user as banned.                                    |                                                            |
+
+
+
+Further examples TBA based on discussion with https://github.com/xzyfer :
+
+Styling - how will multiple endpoints for a single app be styled - who is responsible for maintenance of stylesheets etc
+ * SSO team responsible for not changing their HTML without a version bump to the api
+ * Downstream team responsible for registering their apps. They will need to provide:
+  - Login/logoff endpoint(s)
+  - An html fragment to be included for each endpoint.
+  - any specific crossdomain CSP headers / crossdomain.xml
+  - a secure, secret key to encrypt comms
+  - on *each* login attempt, some (arbitrary) data which will be passed back to the login endpoint
+
+Fraud
+ * SSO app will need to integrate with Threatmetrix, maybe maxmind, etc for fraud detection
+ * pre & post registration/authentication hooks (record user signups for fraud analysis)
+ * Detailed, structured logs need to be available for fraud analysis. Need to store:
+   - login/logout/register/forgot password events
+   - events from downstream apps (eg paid for contest)
+   - third party events (Threatmetrix etc)
+
+
+Suspension as well as banning
+Bans affecting different sites separately (eg banned as designer for uploading copyrighted material shouldn't ban from being a CH)
+
+Are Bans/suspensions a special case of forcing updates out to all downstream sites?
