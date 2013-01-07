@@ -8,6 +8,7 @@ Scenario: User logging in to view a protected resource.
 |   Site issues redirect to authentication server.           |                                                            |
 |                                                            |   Authentication server displays login form                |
 |                                                            |   User submits name/password                               |
+|                                                            |   Checks login details/ban status. Sets session cookie.    |
 |                                                            |   Redirects back to downstream site with URL parameters    |
 |                                                            |   containing user data (identity, email - anything at      |
 |                                                            |   all, really). The URL parameters also contain the        |
@@ -39,9 +40,9 @@ Scenario: Admin bans a user
 
 |   Downstream site (eg secret.com)                          |   Authentication Server (eg authenticator.net)             |
 |   ------------------------------------------------------   |   ------------------------------------------------------   |
-|                                                            |   Logged in admin POST's to the 'ban user 13231' url       |
-|                                                            |   Iterates through the list of downstream sites            |
-|                                                            |   POST's 'ban user 13231' to each site (retrying once      |
-|                                                            |   for 5xx responses)                                       |
+|                                                            |   Logged in admin POST's to the 'ban user 13231' url.      |
+|                                                            |   Stores users banned status                               |
+|                                                            |   Iterates through the list of downstream sites, POST'ing  |
+|                                                            |   'ban user 13231' to each site (retrying once for 5xx)    |
 |   Receives POST from upstream site, verifies signature     |                                                            |
 |   Marks user as banned.                                    |                                                            |
