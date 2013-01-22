@@ -15,7 +15,6 @@ Capybara.default_driver = :selenium
 Capybara.ignore_hidden_elements = true
 Dir.glob('spec/support/*.rb').sort.each { |f| require f }
 
-
 RSpec.configure do |config|
   config.include ProcessHelper
 end

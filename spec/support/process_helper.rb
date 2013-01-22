@@ -10,6 +10,7 @@ module ProcessHelper
       ENV.update(client_env_vars)
       Process.exec(client_runner)
     end
+    sleep(2) # Give them a second to get started
   end
 
   def kill_test_processes
